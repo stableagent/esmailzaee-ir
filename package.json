@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run generate:toon && next build",
     "start": "next start",
     "generate:toon": "node scripts/generate-toon.mjs"
   },
