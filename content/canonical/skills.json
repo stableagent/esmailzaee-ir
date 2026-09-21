@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "content_type": "collection",
+  "id": "skills",
+  "locales": {
+    "en": { "title": "Skills" },
+    "fa": { "title": "مهارت‌ها" }
+  },
+  "items": []
+}
