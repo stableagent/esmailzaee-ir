@@ -3,8 +3,17 @@
   "content_type": "collection",
   "id": "skills",
   "locales": {
-    "en": { "title": "Skills" },
-    "fa": { "title": "مهارت‌ها" }
+    "en": { "title": "Skills", "summary": "Core technologies and development areas." },
+    "fa": { "title": "مهارت‌ها", "summary": "فناوری‌ها و حوزه‌های اصلی توسعه." }
   },
-  "items": []
+  "meta": { "status": "published", "featured": true, "order": 4 },
+  "items": [
+    { "id": "python", "name": "Python", "category": "backend" },
+    { "id": "django", "name": "Django", "category": "backend" },
+    { "id": "rest-api", "name": "REST API", "category": "backend" },
+    { "id": "html-css", "name": "HTML / CSS", "category": "frontend" },
+    { "id": "bootstrap", "name": "Bootstrap", "category": "frontend" },
+    { "id": "git", "name": "Git / GitHub", "category": "tooling" },
+    { "id": "cloudflare", "name": "Cloudflare", "category": "deployment" }
+  ]
 }
