@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://esmailzaee.ir/schema/content.schema.json",
+  "title": "esmailzaee.ir Content",
+  "type": "object",
+  "required": ["schema_version", "content_type", "id", "locales"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "content_type": {
+      "type": "string",
+      "enum": ["profile", "about", "contact", "activity", "skill", "project", "collection"]
+    },
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "locales": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/localizedContent"
+      }
+    },
+    "meta": { "$ref": "#/$defs/meta" },
+    "links": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/link" }
+    }
+  },
+  "$defs": {
+    "localizedContent": {
+      "type": "object",
+      "required": ["title"],
+      "properties": {
+        "title": { "type": "string" },
+        "short_title": { "type": "string" },
+        "summary": { "type": "string" },
+        "description": { "type": "string" },
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "title"],
+            "properties": {
+              "id": { "type": "string" },
+              "title": { "type": "string" },
+              "body": { "type": "string" },
+              "items": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "slug": { "type": "string" },
+        "status": { "type": "string" },
+        "featured": { "type": "boolean" },
+        "order": { "type": "integer" },
+        "created_at": { "type": "string" },
+        "updated_at": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "link": {
+      "type": "object",
+      "required": ["id", "type", "url"],
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string" },
+        "label": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "external": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
