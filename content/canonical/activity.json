@@ -3,8 +3,14 @@
   "content_type": "collection",
   "id": "activity",
   "locales": {
-    "en": { "title": "Activity" },
-    "fa": { "title": "فعالیت‌ها" }
+    "en": { "title": "Activity", "summary": "Current projects and areas of active development." },
+    "fa": { "title": "فعالیت‌ها", "summary": "پروژه‌ها و حوزه‌های در حال توسعه." }
   },
-  "items": []
+  "meta": { "status": "published", "featured": false, "order": 5 },
+  "items": [
+    { "id": "erp-ecommerce", "title": "ERP / Ecommerce systems", "status": "active" },
+    { "id": "currency-monitor", "title": "Currency Monitor", "status": "active" },
+    { "id": "mentor-framework", "title": "Mentor Framework", "status": "active" },
+    { "id": "structured-content", "title": "JSON to TOON content workflow", "status": "active" }
+  ]
 }
