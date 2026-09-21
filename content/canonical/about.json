@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "content_type": "about",
+  "id": "about",
+  "locales": {
+    "en": {
+      "title": "About",
+      "summary": ""
+    },
+    "fa": {
+      "title": "درباره من",
+      "summary": ""
+    }
+  },
+  "meta": {
+    "status": "draft",
+    "featured": true,
+    "order": 2
+  },
+  "links": []
+}
