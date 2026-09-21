@@ -3,19 +3,9 @@
   "content_type": "profile",
   "id": "profile",
   "locales": {
-    "en": {
-      "title": "Profile",
-      "summary": ""
-    },
-    "fa": {
-      "title": "پروفایل",
-      "summary": ""
-    }
+    "en": { "title": "Saeed Esmailzaee", "summary": "Web developer and builder of modular web products." },
+    "fa": { "title": "سعید اسماعیل‌زایی", "summary": "توسعه‌دهنده وب و سازنده محصولات وب ماژولار." }
   },
-  "meta": {
-    "status": "draft",
-    "featured": true,
-    "order": 1
-  },
-  "links": []
+  "meta": { "status": "published", "featured": true, "order": 1 },
+  "links": [{ "label": "GitHub", "url": "https://github.com/stableagent" }]
 }
