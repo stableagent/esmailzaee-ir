@@ -3,8 +3,14 @@
   "content_type": "collection",
   "id": "projects",
   "locales": {
-    "en": { "title": "Projects" },
-    "fa": { "title": "پروژه‌ها" }
+    "en": { "title": "Projects", "summary": "Selected software projects and product concepts." },
+    "fa": { "title": "پروژه‌ها", "summary": "برخی از پروژه‌ها و ایده‌های نرم‌افزاری منتخب." }
   },
-  "items": []
+  "meta": { "status": "published", "featured": true, "order": 3 },
+  "items": [
+    { "id": "berasan", "slug": "berasan", "title": "Berasan", "summary": "Modular Django ERP and ecommerce platform.", "status": "active" },
+    { "id": "currency-monitor", "slug": "currency-monitor", "title": "Currency Monitor", "summary": "Currency monitoring and scheduled data workflows.", "status": "active" },
+    { "id": "globaldental", "slug": "globaldental", "title": "GlobalDental", "summary": "Dental equipment spare-parts marketplace concept.", "status": "concept" },
+    { "id": "mentor-framework", "slug": "mentor-framework", "title": "Mentor Framework", "summary": "Structured framework for skills, roles and mentor workflows.", "status": "active" }
+  ]
 }
