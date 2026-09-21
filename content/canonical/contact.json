@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "content_type": "contact",
+  "id": "contact",
+  "locales": {
+    "en": {
+      "title": "Contact",
+      "summary": ""
+    },
+    "fa": {
+      "title": "تماس",
+      "summary": ""
+    }
+  },
+  "meta": {
+    "status": "draft",
+    "featured": false,
+    "order": 6
+  },
+  "links": []
+}
