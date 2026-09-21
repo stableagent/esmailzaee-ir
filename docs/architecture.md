@@ -13,10 +13,11 @@ A static personal website presented as a Linux-like desktop environment. The des
 5. Content and presentation remain separated.
 6. Every public route must work without requiring a server-side session.
 7. Persian and English share stable content IDs; locale is presentation metadata.
+8. Deployment target is Cloudflare.
 
 ## Pipeline
 
-JSON → TOON projection → content loader → static pages/components → Vercel/CDN
+JSON → TOON projection → content loader → static pages/components → static export → Cloudflare
 
 TOON is not independently maintained as a second source of truth.
 
@@ -25,9 +26,25 @@ TOON is not independently maintained as a second source of truth.
 - Next.js App Router
 - TypeScript
 - Static generation
+- Next.js static export
 - CSS-first UI
 - Minimal client-side JavaScript only where desktop interaction requires it
-- Vercel deployment
+- Cloudflare Pages for the static deployment
+
+The project deliberately avoids Vercel-specific APIs and server-only features so the generated site remains portable.
+
+## Cloudflare deployment model
+
+The application is built as a static Next.js export.
+
+Build output:
+
+- Next.js build command: `next build`
+- Static output directory: `out/`
+
+Cloudflare Pages receives the generated `out/` directory and serves the resulting HTML, CSS, JavaScript, images, fonts, and other static assets through Cloudflare's network.
+
+If the project later requires server-side behavior, it can be evaluated for migration to Cloudflare Workers. That is intentionally outside version 1.
 
 ## Main UI
 
@@ -60,3 +77,4 @@ Project detail routes are generated from canonical project IDs/slugs.
 - No authentication
 - No server-side user accounts
 - No unnecessary API layer
+- No Vercel-specific runtime dependency
