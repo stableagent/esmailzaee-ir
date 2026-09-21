@@ -99,9 +99,9 @@ function FileContent({ id, locale }: { id: Exclude<WindowId, null>; locale: Loca
   );
 }
 
-export function Desktop({ locale }: { locale: Locale }) {
+export function Desktop({ locale, initialWindow = "about" }: { locale: Locale; initialWindow?: WindowId }) {
   const t = copy[locale];
-  const [windowId, setWindowId] = useState<WindowId>("about");
+  const [windowId, setWindowId] = useState<WindowId>(initialWindow);
   const [terminalOpen, setTerminalOpen] = useState(true);
   const [history, setHistory] = useState<string[]>(["Linux-like Personal Desktop", t.help]);
   const [command, setCommand] = useState("");
