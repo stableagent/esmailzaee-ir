@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://esmailzaee.ir/schema/project.schema.json",
+  "title": "esmailzaee.ir Project",
+  "type": "object",
+  "required": ["schema_version", "content_type", "id", "locales"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "content_type": { "const": "project" },
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "locales": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["title", "summary"],
+        "properties": {
+          "title": { "type": "string" },
+          "summary": { "type": "string" },
+          "description": { "type": "string" },
+          "highlights": { "type": "array", "items": { "type": "string" } },
+          "technologies": { "type": "array", "items": { "type": "string" } }
+        },
+        "additionalProperties": false
+      }
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "slug": { "type": "string" },
+        "status": { "type": "string" },
+        "featured": { "type": "boolean" },
+        "order": { "type": "integer" },
+        "started_at": { "type": "string" },
+        "updated_at": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "repository": { "type": "string", "format": "uri" },
+    "website": { "type": "string", "format": "uri" }
+  },
+  "additionalProperties": false
+}
