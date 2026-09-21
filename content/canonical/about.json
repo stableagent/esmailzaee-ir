@@ -3,19 +3,9 @@
   "content_type": "about",
   "id": "about",
   "locales": {
-    "en": {
-      "title": "About",
-      "summary": ""
-    },
-    "fa": {
-      "title": "درباره من",
-      "summary": ""
-    }
+    "en": { "title": "About me", "summary": "I build web systems with a backend-first mindset, focusing on Django, modular architecture, ecommerce and ERP workflows." },
+    "fa": { "title": "درباره من", "summary": "روی ساخت سیستم‌های وب با رویکرد backend-first کار می‌کنم؛ با تمرکز بر Django، معماری ماژولار، فروشگاه اینترنتی و جریان‌های ERP." }
   },
-  "meta": {
-    "status": "draft",
-    "featured": true,
-    "order": 2
-  },
+  "meta": { "status": "published", "featured": true, "order": 2 },
   "links": []
 }
