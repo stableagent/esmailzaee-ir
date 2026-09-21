@@ -3,19 +3,9 @@
   "content_type": "contact",
   "id": "contact",
   "locales": {
-    "en": {
-      "title": "Contact",
-      "summary": ""
-    },
-    "fa": {
-      "title": "تماس",
-      "summary": ""
-    }
+    "en": { "title": "Contact", "summary": "For web development, product and system-building inquiries." },
+    "fa": { "title": "تماس", "summary": "برای سفارش طراحی و توسعه وب، محصولات و سیستم‌های نرم‌افزاری." }
   },
-  "meta": {
-    "status": "draft",
-    "featured": false,
-    "order": 6
-  },
-  "links": []
+  "meta": { "status": "published", "featured": false, "order": 6 },
+  "links": [{ "label": "GitHub", "url": "https://github.com/stableagent" }]
 }
