@@ -3,9 +3,14 @@ import { isLocale, locales, type Locale } from "@/lib/content";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-const sections = ["about", "profile", "projects", "skills", "activity", "contact"];
+const sections = ["about", "profile", "projects", "skills", "activity", "contact"] as const;
 
-export function generateStaticParams() {
+type RouteParams = {
+  locale: Locale;
+  section?: string[];
+};
+
+export function generateStaticParams(): RouteParams[] {
   return locales.flatMap((locale) => [
     { locale },
     ...sections.map((section) => ({ locale, section: [section] })),
