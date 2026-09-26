@@ -17,6 +17,8 @@ const langNames: Record<string, string> = {
   ar: "ar",
   es: "es",
   de: "de",
+  ko: "ko",
+  ja: "ja",
 };
 
 export default async function LocaleLayout({
