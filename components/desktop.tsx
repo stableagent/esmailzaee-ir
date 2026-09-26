@@ -66,6 +66,26 @@ const copy = {
     activityText: "Die aktuelle Arbeit konzentriert sich auf wiederverwendbare Web-Systeme, Entwicklertools und strukturierte Content-Workflows.",
     contactText: "Für Projektanfragen nutzen Sie bitte die im kanonischen Inhaltsmodell konfigurierten Kontaktkanäle.",
   },
+  ko: {
+    system: "애플리케이션", workspace: "개인 작업 공간", terminal: "터미널",
+    about: "소개", profile: "프로필", projects: "프로젝트", skills: "기술", activity: "활동", contact: "연락처",
+    help: "help  ls  pwd  whoami  cd projects  cat about.toon  open projects  clear",
+    aboutText: "Django, 모듈형 아키텍처, 전자상거래 및 ERP 워크플로에 중점을 두고 백엔드 중심의 웹 시스템을 구축합니다.",
+    profileText: "Saeed Esmailzaee — 웹 개발자이자 모듈형 웹 제품 개발자입니다.",
+    skillsText: "Python, Django, HTML, CSS, Bootstrap, Git, Cloudflare 및 API 중심 백엔드 개발.",
+    activityText: "현재 재사용 가능한 웹 시스템, 개발 도구 및 구조화된 콘텐츠 워크플로를 구축하고 있습니다.",
+    contactText: "프로젝트 문의는 표준 콘텐츠 모델에 구성된 연락처 채널을 이용해 주세요.",
+  },
+  ja: {
+    system: "アプリケーション", workspace: "パーソナルワークスペース", terminal: "ターミナル",
+    about: "概要", profile: "プロフィール", projects: "プロジェクト", skills: "スキル", activity: "活動", contact: "連絡先",
+    help: "help  ls  pwd  whoami  cd projects  cat about.toon  open projects  clear",
+    aboutText: "Django、モジュール型アーキテクチャ、ECおよびERPワークフローを中心に、バックエンド重視のWebシステムを構築しています。",
+    profileText: "Saeed Esmailzaee — Web開発者、モジュール型Webプロダクトの開発者。",
+    skillsText: "Python、Django、HTML、CSS、Bootstrap、Git、Cloudflare、API指向のバックエンド開発。",
+    activityText: "現在は再利用可能なWebシステム、開発者向けツール、構造化されたコンテンツワークフローに取り組んでいます。",
+    contactText: "プロジェクトに関するお問い合わせは、標準コンテンツモデルに設定された連絡先をご利用ください。",
+  },
 } as const;
 
 function Window({ title, children, close }: { title: string; children: React.ReactNode; close: () => void }) {
@@ -135,6 +155,7 @@ export function Desktop({ locale, initialWindow = "about" }: { locale: Locale; i
   const [terminalOpen, setTerminalOpen] = useState(true);
   const [history, setHistory] = useState<string[]>(["Linux-like Personal Desktop", t.help]);
   const [command, setCommand] = useState("");
+  const [languageOpen, setLanguageOpen] = useState(false);
 
   function runCommand() {
     const value = command.trim();
@@ -156,9 +177,16 @@ export function Desktop({ locale, initialWindow = "about" }: { locale: Locale; i
   }
 
   const isRTL = locale === "fa" || locale === "ar";
-  const langMap: Record<Locale, string> = { en: "EN", fa: "FA", ar: "AR", es: "ES", de: "DE" };
-  const prevLangs: Record<Locale, Locale> = { en: "de", de: "es", es: "ar", ar: "fa", fa: "en" };
-  const prevLang = prevLangs[locale];
+  const languages: Array<{ code: Locale; short: string; native: string; dir: "ltr" | "rtl" }> = [
+    { code: "en", short: "EN", native: "English", dir: "ltr" },
+    { code: "fa", short: "FA", native: "فارسی", dir: "rtl" },
+    { code: "ar", short: "AR", native: "العربية", dir: "rtl" },
+    { code: "es", short: "ES", native: "Español", dir: "ltr" },
+    { code: "de", short: "DE", native: "Deutsch", dir: "ltr" },
+    { code: "ko", short: "KO", native: "한국어", dir: "ltr" },
+    { code: "ja", short: "JA", native: "日本語", dir: "ltr" },
+  ];
+  const currentLanguage = languages.find((language) => language.code === locale)!;
 
   return (
     <main className="desktop" dir={isRTL ? "rtl" : "ltr"}>
@@ -166,7 +194,37 @@ export function Desktop({ locale, initialWindow = "about" }: { locale: Locale; i
       <header className="topbar">
         <div className="topbar-left"><span className="brand">◉ {t.system}</span><span className="status">{t.workspace}</span></div>
         <div className="topbar-right">
-          <Link href={"/" + prevLang} title="Previous language">{langMap[prevLang]}</Link>
+          <div className="language-switcher">
+            <button
+              className="language-button"
+              type="button"
+              aria-haspopup="menu"
+              aria-expanded={languageOpen}
+              onClick={() => setLanguageOpen((open) => !open)}
+              title="Change language"
+            >
+              <span>{currentLanguage.native}</span>
+              <span className="language-code">{currentLanguage.short}</span>
+              <span aria-hidden="true">▾</span>
+            </button>
+            {languageOpen && (
+              <div className="language-menu" role="menu" dir="ltr">
+                {languages.map((language) => (
+                  <Link
+                    key={language.code}
+                    href={"/" + language.code}
+                    className={"language-option" + (language.code === locale ? " active" : "")}
+                    role="menuitem"
+                    hrefLang={language.code}
+                    onClick={() => setLanguageOpen(false)}
+                  >
+                    <span className="language-native" dir={language.dir}>{language.native}</span>
+                    <span className="language-code">{language.short}</span>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
           <span className="status">esmailzaee.ir</span>
         </div>
       </header>
