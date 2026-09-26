@@ -1,6 +1,5 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { locales } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Saeed Esmailzaee — Personal Desktop",
@@ -8,16 +7,10 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://esmailzaee.ir"),
 };
 
-export async function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
-}
-
-export default function RootLayout({ 
-  children, 
-  params 
-}: Readonly<{ 
+export default function RootLayout({
+  children,
+}: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
