@@ -1,5 +1,5 @@
-import { Desktop } from "@/components/desktop";
+import { redirect } from "next/navigation";
 
 export default function HomePage() {
-  return <Desktop locale="fa" initialWindow="about" />;
+  redirect("/fa");
 }

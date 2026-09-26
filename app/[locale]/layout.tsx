@@ -1,6 +1,5 @@
-import "./globals.css";
 import type { Metadata } from "next";
-import { locales } from "@/lib/content";
+import { isLocale, locales, localeDirection } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Saeed Esmailzaee — Personal Desktop",
@@ -12,15 +11,27 @@ export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export default function RootLayout({ 
-  children, 
-  params 
-}: Readonly<{ 
+const langNames: Record<string, string> = {
+  en: "en",
+  fa: "fa",
+  ar: "ar",
+  es: "es",
+  de: "de",
+};
+
+export default async function LocaleLayout({
+  children,
+  params,
+}: {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
-}>) {
+}) {
+  const { locale } = await params;
+  const validLocale = isLocale(locale) ? locale : "en";
+  const dir = localeDirection(validLocale);
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={langNames[validLocale] || "en"} dir={dir}>
       <body>{children}</body>
     </html>
   );

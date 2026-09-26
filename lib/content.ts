@@ -5,8 +5,8 @@ import skills from "@/content/canonical/skills.json";
 import activity from "@/content/canonical/activity.json";
 import projects from "@/content/canonical/projects.json";
 
-export type Locale = "en" | "fa";
-export const locales: Locale[] = ["en", "fa"];
+export type Locale = "en" | "fa" | "ar" | "es" | "de";
+export const locales: Locale[] = ["en", "fa", "ar", "es", "de"];
 export const content = { profile, about, contact, skills, activity, projects };
 export function isLocale(value: string): value is Locale { return locales.includes(value as Locale); }
-export function localeDirection(locale: Locale) { return locale === "fa" ? "rtl" : "ltr"; }
+export function localeDirection(locale: Locale) { return locale === "fa" || locale === "ar" ? "rtl" : "ltr"; }
