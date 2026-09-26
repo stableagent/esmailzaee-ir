@@ -36,6 +36,36 @@ const copy = {
     activityText: "تمرکز فعلی روی ساخت سیستم‌های وب قابل توسعه، ابزارهای توسعه و جریان‌های محتوایی ساختاریافته است.",
     contactText: "برای همکاری و سفارش پروژه، کانال‌های تماس در مدل محتوای اصلی سایت قرار می‌گیرند.",
   },
+  ar: {
+    system: "التطبيقات", workspace: "مساحة العمل الشخصية", terminal: "المحطة الطرفية",
+    about: "حول", profile: "الملف الشخصي", projects: "المشاريع", skills: "المهارات", activity: "النشاط", contact: "اتصل",
+    help: "help  ls  pwd  whoami  cd projects  cat about.toon  open projects  clear",
+    aboutText: "أبني أنظمة الويب بعقلية موجهة للخادم الخلفي، مع التركيز القوي على Django والعمارة المعيارية وسير عمل التجارة الإلكترونية والمؤسسات.",
+    profileText: "سعيد إسماعيل زائي — مطور ويب وبناء منتجات الويب المعيارية.",
+    skillsText: "Python و Django و HTML و CSS و Bootstrap و Git و Cloudflare وتطوير الخادم الخلفي الموجه نحو API.",
+    activityText: "ينصب العمل الحالي على أنظمة الويب القابلة لإعادة الاستخدام وأدوات المطورين وسير العمل المحتوى المنظم.",
+    contactText: "لاستفسارات المشروع، استخدم قنوات الاتصال المكونة في نموذج المحتوى الأساسي.",
+  },
+  es: {
+    system: "Aplicaciones", workspace: "Espacio de Trabajo Personal", terminal: "Terminal",
+    about: "Acerca de", profile: "Perfil", projects: "Proyectos", skills: "Habilidades", activity: "Actividad", contact: "Contacto",
+    help: "help  ls  pwd  whoami  cd projects  cat about.toon  open projects  clear",
+    aboutText: "Construyo sistemas web con una mentalidad orientada al backend, con un fuerte enfoque en Django, arquitectura modular y flujos de trabajo de comercio electrónico y ERP.",
+    profileText: "Saeed Esmailzaee — desarrollador web y constructor de productos web modulares.",
+    skillsText: "Python, Django, HTML, CSS, Bootstrap, Git, Cloudflare y desarrollo backend orientado a API.",
+    activityText: "El trabajo actual se centra en sistemas web reutilizables, herramientas para desarrolladores y flujos de contenido estructurado.",
+    contactText: "Para consultas de proyectos, utilice los canales de contacto configurados en el modelo de contenido canónico.",
+  },
+  de: {
+    system: "Anwendungen", workspace: "Persönlicher Arbeitsbereich", terminal: "Terminal",
+    about: "Über", profile: "Profil", projects: "Projekte", skills: "Fähigkeiten", activity: "Aktivität", contact: "Kontakt",
+    help: "help  ls  pwd  whoami  cd projects  cat about.toon  open projects  clear",
+    aboutText: "Ich baue Web-Systeme mit einer Backend-first-Mentalität, mit starkem Fokus auf Django, modulare Architektur, E-Commerce- und ERP-Workflows.",
+    profileText: "Saeed Esmailzaee — Webentwickler und Erbauer modularer Webprodukte.",
+    skillsText: "Python, Django, HTML, CSS, Bootstrap, Git, Cloudflare und API-orientierte Backend-Entwicklung.",
+    activityText: "Die aktuelle Arbeit konzentriert sich auf wiederverwendbare Web-Systeme, Entwicklertools und strukturierte Content-Workflows.",
+    contactText: "Für Projektanfragen nutzen Sie bitte die im kanonischen Inhaltsmodell konfigurierten Kontaktkanäle.",
+  },
 } as const;
 
 function Window({ title, children, close }: { title: string; children: React.ReactNode; close: () => void }) {
@@ -125,12 +155,20 @@ export function Desktop({ locale, initialWindow = "about" }: { locale: Locale; i
     setCommand("");
   }
 
+  const isRTL = locale === "fa" || locale === "ar";
+  const langMap: Record<Locale, string> = { en: "EN", fa: "FA", ar: "AR", es: "ES", de: "DE" };
+  const prevLangs: Record<Locale, Locale> = { en: "de", de: "es", es: "ar", ar: "fa", fa: "en" };
+  const prevLang = prevLangs[locale];
+
   return (
-    <main className="desktop" dir={locale === "fa" ? "rtl" : "ltr"}>
+    <main className="desktop" dir={isRTL ? "rtl" : "ltr"}>
       <div className="desktop-grid" />
       <header className="topbar">
         <div className="topbar-left"><span className="brand">◉ {t.system}</span><span className="status">{t.workspace}</span></div>
-        <div className="topbar-right"><Link href={locale === "fa" ? "/en" : "/fa"}>{locale === "fa" ? "EN" : "FA"}</Link><span className="status">esmailzaee.ir</span></div>
+        <div className="topbar-right">
+          <Link href={"/" + prevLang} title="Previous language">{langMap[prevLang]}</Link>
+          <span className="status">esmailzaee.ir</span>
+        </div>
       </header>
 
       <section className="workspace">
