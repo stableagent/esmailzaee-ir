@@ -1,265 +1,155 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import type { Locale } from "@/lib/content";
 
-type WindowId = "about" | "profile" | "projects" | "skills" | "activity" | "contact" | null;
-
-const files = [
-  ["about", "about.toon", "A"],
-  ["profile", "profile.toon", "P"],
-  ["projects", "projects/", "D"],
-  ["skills", "skills.toon", "S"],
-  ["activity", "activity.toon", "⌁"],
-  ["contact", "contact.toon", "@"],
-] as const;
-
 const copy = {
   en: {
-    system: "Applications", workspace: "Personal Workspace", terminal: "Terminal",
-    about: "About", profile: "Profile", projects: "Projects", skills: "Skills", activity: "Activity", contact: "Contact",
-    help: "help  ls  pwd  whoami  cd projects  cat about.toon  open projects  clear",
-    aboutText: "I build web systems with a backend-first mindset, with a strong focus on Django, modular architecture, ecommerce and ERP workflows.",
-    profileText: "Saeed Esmailzaee — web developer and builder of modular web products.",
-    skillsText: "Python, Django, HTML, CSS, Bootstrap, Git, Cloudflare and API-oriented backend development.",
-    activityText: "Current work is centered on reusable web systems, developer tooling and structured content workflows.",
-    contactText: "For project inquiries, use the contact channels configured in the canonical content model.",
+    hello: "Hello. I'm",
+    name: "Saeed Esmailzaee.",
+    intro: "I'm a real technology geek.",
+    work: "I work in web development and I'm associated with Taftan Network Knowledge Base Company.",
+    education: "I'm studying for a BSc at Islamic Azad University.",
+    services: "Web development.",
+    links: "Find me on",
+    languages: "Language",
   },
   fa: {
-    system: "برنامه‌ها", workspace: "فضای کاری شخصی", terminal: "ترمینال",
-    about: "درباره من", profile: "پروفایل", projects: "پروژه‌ها", skills: "مهارت‌ها", activity: "فعالیت‌ها", contact: "تماس",
-    help: "help  ls  pwd  whoami  cd projects  cat about.toon  open projects  clear",
-    aboutText: "روی ساخت سیستم‌های وب با رویکرد backend-first کار می‌کنم؛ با تمرکز ویژه بر Django، معماری ماژولار، فروشگاه اینترنتی و جریان‌های ERP.",
-    profileText: "سعید اسماعیل‌زایی — توسعه‌دهنده وب و سازنده محصولات وب ماژولار.",
-    skillsText: "Python، Django، HTML، CSS، Bootstrap، Git، Cloudflare و توسعه backend مبتنی بر API.",
-    activityText: "تمرکز فعلی روی ساخت سیستم‌های وب قابل توسعه، ابزارهای توسعه و جریان‌های محتوایی ساختاریافته است.",
-    contactText: "برای همکاری و سفارش پروژه، کانال‌های تماس در مدل محتوای اصلی سایت قرار می‌گیرند.",
+    hello: "سلام. من",
+    name: "سعید اسماعیل‌زایی هستم.",
+    intro: "من یک عاشق واقعی فناوری هستم.",
+    work: "در حوزه توسعه وب فعالیت می‌کنم و با شرکت دانش‌بنیان شبکه دانش طفتان همکاری دارم.",
+    education: "در مقطع کارشناسی در دانشگاه آزاد اسلامی تحصیل می‌کنم.",
+    services: "توسعه وب.",
+    links: "من را پیدا کنید در",
+    languages: "زبان",
   },
   ar: {
-    system: "التطبيقات", workspace: "مساحة العمل الشخصية", terminal: "المحطة الطرفية",
-    about: "حول", profile: "الملف الشخصي", projects: "المشاريع", skills: "المهارات", activity: "النشاط", contact: "اتصل",
-    help: "help  ls  pwd  whoami  cd projects  cat about.toon  open projects  clear",
-    aboutText: "أبني أنظمة الويب بعقلية موجهة للخادم الخلفي، مع التركيز القوي على Django والعمارة المعيارية وسير عمل التجارة الإلكترونية والمؤسسات.",
-    profileText: "سعيد إسماعيل زائي — مطور ويب وبناء منتجات الويب المعيارية.",
-    skillsText: "Python و Django و HTML و CSS و Bootstrap و Git و Cloudflare وتطوير الخادم الخلفي الموجه نحو API.",
-    activityText: "ينصب العمل الحالي على أنظمة الويب القابلة لإعادة الاستخدام وأدوات المطورين وسير العمل المحتوى المنظم.",
-    contactText: "لاستفسارات المشروع، استخدم قنوات الاتصال المكونة في نموذج المحتوى الأساسي.",
+    hello: "مرحباً. أنا",
+    name: "سعيد إسماعيل زائي.",
+    intro: "أنا شغوف حقيقي بالتقنية.",
+    work: "أعمل في تطوير الويب ومرتبط بشركة Taftan Network Knowledge Base Company.",
+    education: "أدرس للحصول على درجة البكالوريوس في الجامعة الإسلامية آزاد.",
+    services: "تطوير الويب.",
+    links: "يمكنك العثور عليّ في",
+    languages: "اللغة",
   },
   es: {
-    system: "Aplicaciones", workspace: "Espacio de Trabajo Personal", terminal: "Terminal",
-    about: "Acerca de", profile: "Perfil", projects: "Proyectos", skills: "Habilidades", activity: "Actividad", contact: "Contacto",
-    help: "help  ls  pwd  whoami  cd projects  cat about.toon  open projects  clear",
-    aboutText: "Construyo sistemas web con una mentalidad orientada al backend, con un fuerte enfoque en Django, arquitectura modular y flujos de trabajo de comercio electrónico y ERP.",
-    profileText: "Saeed Esmailzaee — desarrollador web y constructor de productos web modulares.",
-    skillsText: "Python, Django, HTML, CSS, Bootstrap, Git, Cloudflare y desarrollo backend orientado a API.",
-    activityText: "El trabajo actual se centra en sistemas web reutilizables, herramientas para desarrolladores y flujos de contenido estructurado.",
-    contactText: "Para consultas de proyectos, utilice los canales de contacto configurados en el modelo de contenido canónico.",
+    hello: "Hola. Soy",
+    name: "Saeed Esmailzaee.",
+    intro: "Soy un verdadero apasionado de la tecnología.",
+    work: "Trabajo en desarrollo web y estoy asociado con Taftan Network Knowledge Base Company.",
+    education: "Estoy estudiando una licenciatura en Islamic Azad University.",
+    services: "Desarrollo web.",
+    links: "Encuéntrame en",
+    languages: "Idioma",
   },
   de: {
-    system: "Anwendungen", workspace: "Persönlicher Arbeitsbereich", terminal: "Terminal",
-    about: "Über", profile: "Profil", projects: "Projekte", skills: "Fähigkeiten", activity: "Aktivität", contact: "Kontakt",
-    help: "help  ls  pwd  whoami  cd projects  cat about.toon  open projects  clear",
-    aboutText: "Ich baue Web-Systeme mit einer Backend-first-Mentalität, mit starkem Fokus auf Django, modulare Architektur, E-Commerce- und ERP-Workflows.",
-    profileText: "Saeed Esmailzaee — Webentwickler und Erbauer modularer Webprodukte.",
-    skillsText: "Python, Django, HTML, CSS, Bootstrap, Git, Cloudflare und API-orientierte Backend-Entwicklung.",
-    activityText: "Die aktuelle Arbeit konzentriert sich auf wiederverwendbare Web-Systeme, Entwicklertools und strukturierte Content-Workflows.",
-    contactText: "Für Projektanfragen nutzen Sie bitte die im kanonischen Inhaltsmodell konfigurierten Kontaktkanäle.",
+    hello: "Hallo. Ich bin",
+    name: "Saeed Esmailzaee.",
+    intro: "Ich bin ein echter Technik-Enthusiast.",
+    work: "Ich arbeite in der Webentwicklung und bin mit der Taftan Network Knowledge Base Company verbunden.",
+    education: "Ich studiere für einen Bachelor an der Islamic Azad University.",
+    services: "Webentwicklung.",
+    links: "Du findest mich auf",
+    languages: "Sprache",
   },
   ko: {
-    system: "애플리케이션", workspace: "개인 작업 공간", terminal: "터미널",
-    about: "소개", profile: "프로필", projects: "프로젝트", skills: "기술", activity: "활동", contact: "연락처",
-    help: "help  ls  pwd  whoami  cd projects  cat about.toon  open projects  clear",
-    aboutText: "Django, 모듈형 아키텍처, 전자상거래 및 ERP 워크플로에 중점을 두고 백엔드 중심의 웹 시스템을 구축합니다.",
-    profileText: "Saeed Esmailzaee — 웹 개발자이자 모듈형 웹 제품 개발자입니다.",
-    skillsText: "Python, Django, HTML, CSS, Bootstrap, Git, Cloudflare 및 API 중심 백엔드 개발.",
-    activityText: "현재 재사용 가능한 웹 시스템, 개발 도구 및 구조화된 콘텐츠 워크플로를 구축하고 있습니다.",
-    contactText: "프로젝트 문의는 표준 콘텐츠 모델에 구성된 연락처 채널을 이용해 주세요.",
+    hello: "안녕하세요. 저는",
+    name: "Saeed Esmailzaee입니다.",
+    intro: "저는 진정한 기술 덕후입니다.",
+    work: "웹 개발 분야에서 일하며 Taftan Network Knowledge Base Company와 함께하고 있습니다.",
+    education: "Islamic Azad University에서 학사 과정을 공부하고 있습니다.",
+    services: "웹 개발.",
+    links: "저를 찾아보세요",
+    languages: "언어",
   },
   ja: {
-    system: "アプリケーション", workspace: "パーソナルワークスペース", terminal: "ターミナル",
-    about: "概要", profile: "プロフィール", projects: "プロジェクト", skills: "スキル", activity: "活動", contact: "連絡先",
-    help: "help  ls  pwd  whoami  cd projects  cat about.toon  open projects  clear",
-    aboutText: "Django、モジュール型アーキテクチャ、ECおよびERPワークフローを中心に、バックエンド重視のWebシステムを構築しています。",
-    profileText: "Saeed Esmailzaee — Web開発者、モジュール型Webプロダクトの開発者。",
-    skillsText: "Python、Django、HTML、CSS、Bootstrap、Git、Cloudflare、API指向のバックエンド開発。",
-    activityText: "現在は再利用可能なWebシステム、開発者向けツール、構造化されたコンテンツワークフローに取り組んでいます。",
-    contactText: "プロジェクトに関するお問い合わせは、標準コンテンツモデルに設定された連絡先をご利用ください。",
+    hello: "こんにちは。私は",
+    name: "Saeed Esmailzaeeです。",
+    intro: "私は本物のテクノロジー好きです。",
+    work: "Web開発に携わり、Taftan Network Knowledge Base Companyと関わっています。",
+    education: "Islamic Azad Universityで学士課程を学んでいます。",
+    services: "Web開発。",
+    links: "こちらからどうぞ",
+    languages: "言語",
   },
 } as const;
 
-function Window({ title, children, close }: { title: string; children: React.ReactNode; close: () => void }) {
+const languages: Array<{ code: Locale; label: string; dir: "ltr" | "rtl" }> = [
+  { code: "en", label: "English", dir: "ltr" },
+  { code: "fa", label: "فارسی", dir: "rtl" },
+  { code: "ar", label: "العربية", dir: "rtl" },
+  { code: "es", label: "Español", dir: "ltr" },
+  { code: "de", label: "Deutsch", dir: "ltr" },
+  { code: "ko", label: "한국어", dir: "ltr" },
+  { code: "ja", label: "日本語", dir: "ltr" },
+];
+
+function LinkedInIcon() {
   return (
-    <section className="window" aria-label={title}>
-      <header className="window-header">
-        <span className="window-title">{title}</span>
-        <div className="window-controls">
-          <button className="window-control" aria-label="minimize" onClick={close} />
-          <button className="window-control" aria-label="close" onClick={close} />
-        </div>
-      </header>
-      <div className="window-body">{children}</div>
-    </section>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5.2 8.4H1.7V22h3.5V8.4ZM3.45 2A2.05 2.05 0 1 0 3.4 6.1 2.05 2.05 0 0 0 3.45 2ZM22.3 13.75c0-4.1-2.18-6-5.1-6-2.35 0-3.4 1.3-4 2.2V8.4H9.7V22h3.5v-6.74c0-1.78.34-3.5 2.54-3.5 2.17 0 2.2 2.03 2.2 3.62V22h3.5l.86-8.25Z" />
+    </svg>
   );
 }
 
-function FileContent({ id, locale }: { id: Exclude<WindowId, null>; locale: Locale }) {
-  const t = copy[locale];
-  if (id === "projects") {
-    const items = [
-      ["berasan.toon", locale === "fa" ? "پلتفرم ERP و تجارت الکترونیک Django" : "Django ERP and ecommerce platform"],
-      ["currency-monitor.toon", locale === "fa" ? "مانیتورینگ نرخ ارز و جریان‌های زمان‌بندی‌شده" : "Currency monitoring and scheduled workflows"],
-      ["globaldental.toon", locale === "fa" ? "ایده بازار قطعات تجهیزات دندان‌پزشکی" : "Dental equipment spare-parts marketplace concept"],
-      ["mentor-framework.toon", locale === "fa" ? "چارچوب ساختاریافته مهارت‌ها و منتورها" : "Structured skills and mentor framework"],
-    ];
-    return (
-      <>
-        <span className="eyebrow">directory</span>
-        <h2>~/projects</h2>
-        <div className="folder-grid">
-          {items.map((item) => (
-            <Link className="folder-item" href={"/" + locale + "/projects"} key={item[0]}>
-              <div><strong>{item[0]}</strong></div><div className="status">{item[1]}</div>
-            </Link>
-          ))}
-        </div>
-      </>
-    );
-  }
-
-  const titleMap = {
-    about: t.about, profile: t.profile, skills: t.skills, activity: t.activity, contact: t.contact,
-  } as Record<string, string>;
-  const textMap = {
-    about: t.aboutText, profile: t.profileText, skills: t.skillsText, activity: t.activityText, contact: t.contactText,
-  } as Record<string, string>;
-
+function GitHubIcon() {
   return (
-    <>
-      <span className="eyebrow">~/home/saeed</span>
-      <h2>{titleMap[id]}</h2>
-      <p>{textMap[id]}</p>
-      {id === "skills" && (
-        <div className="tag-list">
-          {["Python", "Django", "REST API", "HTML", "CSS", "Bootstrap", "Git", "Cloudflare"].map((x) => <span className="tag" key={x}>{x}</span>)}
-        </div>
-      )}
-      {id === "contact" && <div className="code">contact.toon{"\n"}status: ready{"\n"}source: canonical/contact.json</div>}
-    </>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 .7A11.3 11.3 0 0 0 8.43 22.92c.57.1.78-.25.78-.55v-2.16c-3.18.7-3.85-1.35-3.85-1.35-.52-1.32-1.27-1.67-1.27-1.67-1.04-.72.08-.7.08-.7 1.15.08 1.75 1.18 1.75 1.18 1.02 1.74 2.68 1.24 3.33.95.1-.74.4-1.24.73-1.52-2.54-.29-5.2-1.27-5.2-5.65 0-1.25.45-2.27 1.18-3.07-.12-.3-.51-1.45.11-3.03 0 0 .96-.31 3.13 1.17a10.9 10.9 0 0 1 5.7 0c2.17-1.48 3.12-1.17 3.12-1.17.62 1.58.23 2.73.12 3.03.73.8 1.17 1.82 1.17 3.07 0 4.39-2.67 5.35-5.22 5.64.41.35.78 1.05.78 2.12v3.16c0 .31.2.66.79.55A11.3 11.3 0 0 0 12 .7Z" />
+    </svg>
   );
 }
 
-export function Desktop({ locale, initialWindow = "about" }: { locale: Locale; initialWindow?: WindowId }) {
+export function Desktop({ locale }: { locale: Locale; initialWindow?: string }) {
   const t = copy[locale];
-  const [windowId, setWindowId] = useState<WindowId>(initialWindow);
-  const [terminalOpen, setTerminalOpen] = useState(true);
-  const [history, setHistory] = useState<string[]>(["Welcome to esmailzaee.ir", "Type `help` to see available commands.", ""]);
-  const [command, setCommand] = useState("");
-  const [languageOpen, setLanguageOpen] = useState(false);
-
-  function runCommand() {
-    const value = command.trim();
-    if (!value) return;
-    if (value === "clear") { setHistory([]); setCommand(""); return; }
-    const outputs: Record<string, string> = {
-      help: t.help,
-      ls: "about.toon  profile.toon  skills.toon  activity.toon  contact.toon  projects/",
-      pwd: "/home/saeed",
-      whoami: "saeed",
-      "cd projects": "/home/saeed/projects",
-      "open projects": "opening projects/",
-      "cat about.toon": t.aboutText,
-    };
-    setHistory((items) => items.concat(["saeed@esmailzaee:~$ " + value, outputs[value] || "command not found: " + value, ""]));
-    if (value === "open projects") setWindowId("projects");
-    if (value === "cat about.toon") setWindowId("about");
-    setCommand("");
-  }
-
   const isRTL = locale === "fa" || locale === "ar";
-  const languages: Array<{ code: Locale; short: string; native: string; dir: "ltr" | "rtl" }> = [
-    { code: "en", short: "EN", native: "English", dir: "ltr" },
-    { code: "fa", short: "FA", native: "فارسی", dir: "rtl" },
-    { code: "ar", short: "AR", native: "العربية", dir: "rtl" },
-    { code: "es", short: "ES", native: "Español", dir: "ltr" },
-    { code: "de", short: "DE", native: "Deutsch", dir: "ltr" },
-    { code: "ko", short: "KO", native: "한국어", dir: "ltr" },
-    { code: "ja", short: "JA", native: "日本語", dir: "ltr" },
-  ];
-  const currentLanguage = languages.find((language) => language.code === locale)!;
 
   return (
-    <main className="desktop" dir={isRTL ? "rtl" : "ltr"}>
-      <div className="desktop-grid" />
-      <header className="topbar">
-        <div className="topbar-left"><span className="brand">◉ {t.system}</span><span className="status">{t.workspace}</span></div>
-        <div className="topbar-right">
-          <div className="language-switcher">
-            <button
-              className="language-button"
-              type="button"
-              aria-haspopup="menu"
-              aria-expanded={languageOpen}
-              onClick={() => setLanguageOpen((open) => !open)}
-              title="Change language"
-            >
-              <span>{currentLanguage.native}</span>
-              <span className="language-code">{currentLanguage.short}</span>
-              <span aria-hidden="true">▾</span>
-            </button>
-            {languageOpen && (
-              <div className="language-menu" role="menu" dir="ltr">
-                {languages.map((language) => (
-                  <Link
-                    key={language.code}
-                    href={"/" + language.code}
-                    className={"language-option" + (language.code === locale ? " active" : "")}
-                    role="menuitem"
-                    hrefLang={language.code}
-                    onClick={() => setLanguageOpen(false)}
-                  >
-                    <span className="language-native" dir={language.dir}>{language.native}</span>
-                    <span className="language-code">{language.short}</span>
-                  </Link>
-                ))}
-              </div>
-            )}
+    <main className="personal-page" dir={isRTL ? "rtl" : "ltr"}>
+      <div className="paper-grid" aria-hidden="true" />
+      <div className="paper-content">
+        <article className="intro">
+          <h1>{t.hello} <strong>{t.name}</strong></h1>
+          <p>{t.intro}</p>
+          <p>{t.work}</p>
+          <p>{t.education}</p>
+          <p className="highlight">{t.services}</p>
+
+          <div className="social-row" aria-label={t.links}>
+            <Link className="social-link" href="https://www.linkedin.com/in/esmailzaee/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+              <LinkedInIcon />
+            </Link>
+            <Link className="social-link" href="https://github.com/stableagent" target="_blank" rel="noreferrer" aria-label="GitHub">
+              <GitHubIcon />
+            </Link>
           </div>
-          <span className="status">esmailzaee.ir</span>
-        </div>
-      </header>
 
-      <section className="workspace">
-        <nav className="desktop-icons" aria-label="Desktop files">
-          {files.map((file) => (
-            <button className="icon-button" key={file[0]} onClick={() => setWindowId(file[0])}>
-              <span className="icon-glyph">{file[2]}</span><span className="icon-label">{file[1]}</span>
-            </button>
-          ))}
-        </nav>
+          <div className="language-row" aria-label={t.languages}>
+            <span className="language-label">{t.languages}:</span>
+            {languages.map((language, index) => (
+              <span className="language-item" key={language.code}>
+                {index > 0 && <span className="language-separator"> / </span>}
+                <Link
+                  href={"/" + language.code}
+                  hrefLang={language.code}
+                  className={language.code === locale ? "language-current" : ""}
+                  dir={language.dir}
+                >
+                  {language.label}
+                </Link>
+              </span>
+            ))}
+          </div>
+        </article>
 
-        {windowId && <Window title={windowId + ".toon"} close={() => setWindowId(null)}><FileContent id={windowId} locale={locale} /></Window>}
-
-        {terminalOpen && (
-          <section className="terminal" aria-label={t.terminal}>
-            <div className="terminal-header">{t.terminal} — safe simulation</div>
-            <div className="terminal-output">{history.map((line, i) => <div key={i}>{line}</div>)}</div>
-            <form className="terminal-form" onSubmit={(e) => { e.preventDefault(); runCommand(); }}>
-              <span className="terminal-prompt">saeed@esmailzaee:~$</span>
-              <input className="terminal-input" aria-label="terminal command" value={command} onChange={(e) => setCommand(e.target.value)} autoComplete="off" spellCheck={false} />
-            </form>
-          </section>
-        )}
-      </section>
-
-      <nav className="dock" aria-label="Dock">
-        <button onClick={() => setWindowId("about")} title={t.about}>A</button>
-        <button onClick={() => setWindowId("projects")} title={t.projects}>D</button>
-        <button onClick={() => setWindowId("skills")} title={t.skills}>S</button>
-        <button onClick={() => setWindowId("contact")} title={t.contact}>@</button>
-        <button onClick={() => setTerminalOpen((v) => !v)} title={t.terminal}>⌘</button>
-        <Link href={"/" + locale} title="Home">⌂</Link>
-      </nav>
+        <svg className="sketch-arrow" viewBox="0 0 170 110" aria-hidden="true">
+          <path d="M4 55 C34 54, 62 52, 91 54 C116 55, 133 57, 154 57" />
+          <path d="M133 38 C143 47, 151 52, 162 56 C151 63, 143 71, 135 80" />
+          <path d="M137 43 C147 49, 153 54, 160 57" />
+        </svg>
+      </div>
     </main>
   );
 }
