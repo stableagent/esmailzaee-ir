@@ -153,7 +153,7 @@ export function Desktop({ locale, initialWindow = "about" }: { locale: Locale; i
   const t = copy[locale];
   const [windowId, setWindowId] = useState<WindowId>(initialWindow);
   const [terminalOpen, setTerminalOpen] = useState(true);
-  const [history, setHistory] = useState<string[]>(["Linux-like Personal Desktop", t.help]);
+  const [history, setHistory] = useState<string[]>(["Welcome to esmailzaee.ir", "Type `help` to see available commands.", ""]);
   const [command, setCommand] = useState("");
   const [languageOpen, setLanguageOpen] = useState(false);
 
@@ -170,7 +170,7 @@ export function Desktop({ locale, initialWindow = "about" }: { locale: Locale; i
       "open projects": "opening projects/",
       "cat about.toon": t.aboutText,
     };
-    setHistory((items) => items.concat(["$ " + value, outputs[value] || "command not found: " + value]));
+    setHistory((items) => items.concat(["saeed@esmailzaee:~$ " + value, outputs[value] || "command not found: " + value, ""]));
     if (value === "open projects") setWindowId("projects");
     if (value === "cat about.toon") setWindowId("about");
     setCommand("");
@@ -245,7 +245,7 @@ export function Desktop({ locale, initialWindow = "about" }: { locale: Locale; i
             <div className="terminal-header">{t.terminal} — safe simulation</div>
             <div className="terminal-output">{history.map((line, i) => <div key={i}>{line}</div>)}</div>
             <form className="terminal-form" onSubmit={(e) => { e.preventDefault(); runCommand(); }}>
-              <span className="terminal-prompt">$</span>
+              <span className="terminal-prompt">saeed@esmailzaee:~$</span>
               <input className="terminal-input" aria-label="terminal command" value={command} onChange={(e) => setCommand(e.target.value)} autoComplete="off" spellCheck={false} />
             </form>
           </section>
